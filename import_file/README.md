@@ -30,7 +30,7 @@ db = <DATABASE_NAME>
 user = <USERNAME>
 password = <PASSWORD>
 users = <USERS_LIST>
-archive_file = download_result.tar.gz
+archive_file = <ARCHIVE>.tar.gz
 ```
 
 ## 🔧 Установка зависимостей
