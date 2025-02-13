@@ -44,7 +44,7 @@ pip3 install -r requirements.txt
 ## 🚀 Как запустить
 
 ```bash
-python3 script.py
+python3 start.py
 ```
 
 ## 🔎 Детали работы скрипта
