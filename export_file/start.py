@@ -81,26 +81,22 @@ def get_table_ddl(connection, schema, table):
 
 # Экспорт таблиц в CSV и DDL
 def export_table_to_csv_and_ddl(connection, schema, table, output_dir):
-    # Экспорт данных
     query = f'SELECT * FROM "{schema}"."{table}"'
-    cursor = connection.cursor()
+    cursor = connection.cursor(name=f"{schema}_{table}_cursor")  # серверный курсор
     cursor.execute(query)
+
     csv_file = os.path.join(output_dir, schema, f"{table}.csv")
     os.makedirs(os.path.dirname(csv_file), exist_ok=True)
 
-    # Запись данных в CSV файл
     with open(csv_file, 'w', newline='', encoding='utf8') as f:
         writer = csv.writer(f, delimiter=';')
-        # Записываем заголовки
         column_names = [desc[0] for desc in cursor.description]
         writer.writerow(column_names)
-        # Записываем строки
-        for row in cursor:
+        for row in cursor:  # читается построчно
             writer.writerow(row)
 
     print(f"Экспорт данных из таблицы {schema}.{table} в {csv_file}")
 
-    # Экспорт DDL
     ddl = get_table_ddl(connection, schema, table)
     ddl_file = os.path.join(output_dir, schema, 'tables_ddl.txt')
     with open(ddl_file, 'a') as f:
